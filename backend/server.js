@@ -128,18 +128,20 @@ app.post('/api/transactions', (req, res) => {
       }
     }
 
-    // All good -> append to CSV (use formatted account number and original amount string/number)
+    // All good -> append to CSV (use formatted account number and amount with 2 decimals)
+    const amountFormatted = parsedAmount.toFixed(2); // always two decimal places
+
     appendCSVRow([
       transactionDate,
       formattedAccountNumber,
       accountHolderName,
-      parsedAmount, // store numeric normalized amount
+      amountFormatted,
       status
     ]);
 
     return res.status(201).json({
       message: 'Transaction saved successfully',
-      data: { transactionDate, accountNumber: formattedAccountNumber, accountHolderName, amount: parsedAmount, status }
+      data: { transactionDate, accountNumber: formattedAccountNumber, accountHolderName, amount: amountFormatted, status }
     });
   } catch (err) {
     console.error('Error saving transaction:', err);

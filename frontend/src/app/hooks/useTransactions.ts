@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Transaction } from '../types';
 
-const API_URL = 'http://localhost:3000/api/transactions';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/transactions';
 
 export function useTransactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
