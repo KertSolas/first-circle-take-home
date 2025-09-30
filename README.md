@@ -57,13 +57,13 @@ transaction-management-system/
 │   │   │   ├── page.tsx
 │   │   │   ├── layout.tsx
 │   │   │   └── globals.css
+|   |   |   └── types.ts
 │   │   ├── components/
-│   │   │   ├── TransactionTable.tsx
-│   │   │   └── AddTransactionModal.tsx
-│   │   ├── services/
-│   │   │   └── api.ts
-│   │   └── types/
-│   │       └── transaction.ts
+│   │   │   ├── StatusBadge.tsx
+│   │   │   └── TransactionForm.tsx
+|   |   |   └── TransactionTable.tsx
+│   │   ├── hooks/
+│   │   │   └── useTransaction.ts
 │   ├── public/
 │   ├── package.json
 │   ├── tsconfig.json
@@ -81,8 +81,8 @@ Follow these steps to set up the project on your local machine:
 Open your terminal and run:
 
 ```bash
-git clone https://github.com/yourusername/transaction-management-system.git
-cd transaction-management-system
+git clone https://github.com/KertSolas/first-circle-take-home.git
+cd first-circle-take-home
 ```
 
 ### Step 2: Install Backend Dependencies
@@ -143,7 +143,7 @@ touch .env.local  # On Windows: type nul > .env.local
 2. Add the following configuration:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
 **Configuration Details**:
@@ -185,12 +185,12 @@ npm run dev
 
 **Expected Output**:
 ```
-Server is running on http://localhost:3001
+Server is running on http://localhost:3000
 CSV file loaded successfully
 ```
 
 **Troubleshooting**:
-- If you see "Port 3001 is already in use", either stop the other application using that port or change the PORT in your `.env` file
+- If you see "Port 3000 is already in use", either stop the other application using that port or change the PORT in your `.env` file
 - If you see "Cannot find module", run `npm install` again in the backend directory
 - On Windows, if you see permission errors, try running the terminal as Administrator
 
@@ -206,16 +206,14 @@ npm run dev
 **Expected Output**:
 ```
   ▲ Next.js 14.x.x
-  - Local:        http://localhost:3000
-  - Network:      http://192.168.x.x:3000
+  - Local:        http://localhost:3001
+  - Network:      http://192.168.x.x:3001
 
  ✓ Ready in 2.3s
 ```
 
-Your default web browser should automatically open to `http://localhost:3000`. If it doesn't, manually open your browser and navigate to that URL.
-
 **Troubleshooting**:
-- If you see "Port 3000 is already in use", Next.js will automatically try port 3001, 3002, etc.
+- If you see "Port 3001 is already in use", Next.js will automatically try port 3002, 3003, etc.
 - If you see TypeScript errors, ensure all dependencies are installed: `npm install`
 - If you see "Module not found" errors, delete `node_modules` and `.next` folder, then run `npm install` again
 
@@ -229,7 +227,7 @@ Your default web browser should automatically open to `http://localhost:3000`. I
 
 ### Base URL
 ```
-http://localhost:3001/api
+http://localhost:3000/api
 ```
 
 ### Endpoints
@@ -242,7 +240,7 @@ Retrieves all transactions from the CSV file.
 
 **Request**:
 ```bash
-curl http://localhost:3001/api/transactions
+curl http://localhost:3000/api/transactions
 ```
 
 **Response** (200 OK):
@@ -343,12 +341,12 @@ You can test the API directly using cURL commands:
 
 **Get all transactions**:
 ```bash
-curl http://localhost:3001/api/transactions
+curl http://localhost:3000/api/transactions
 ```
 
 **Add a new transaction**:
 ```bash
-curl -X POST http://localhost:3001/api/transactions \
+curl -X POST http://localhost:3000/api/transactions \
   -H "Content-Type: application/json" \
   -d '{
     "transactionDate": "2025-03-15",
@@ -392,7 +390,8 @@ curl -X POST http://localhost:3001/api/transactions \
 - All fields are required
 - Transaction Date must be a valid date
 - Amount must be a positive number
-- Account Number should follow a specific format (if validation is added)
+- Account Number should have 12 digits
+- Account Number should match the name of Account holder
 
 ## Testing
 
@@ -410,135 +409,6 @@ curl -X POST http://localhost:3001/api/transactions \
 - [ ] Status is randomly assigned
 - [ ] Amount is properly formatted with decimals
 - [ ] CSV file is updated with new transactions
-
-### Testing the CSV Persistence
-
-1. Add a few transactions through the UI
-2. Stop both the backend and frontend servers
-3. Restart both servers
-4. Verify that your added transactions still appear in the table
-
-**This confirms** that data is being properly saved to the CSV file.
-
-### API Testing with Postman (Optional)
-
-If you have Postman installed:
-
-1. Import the API endpoints:
-   - GET `http://localhost:3001/api/transactions`
-   - POST `http://localhost:3001/api/transactions`
-2. Test GET request to retrieve transactions
-3. Test POST request with the sample JSON body provided in API Documentation
-4. Verify responses match the documented format
-
-## Troubleshooting
-
-### Common Issues and Solutions
-
-#### Issue: "Cannot connect to backend" or "Network Error"
-
-**Solution**:
-1. Verify the backend server is running (check terminal)
-2. Confirm backend is running on port 3001: `http://localhost:3001`
-3. Check that `REACT_APP_API_URL` in frontend `.env` matches backend URL
-4. Disable browser extensions that might block requests
-5. Check browser console for CORS errors
-
-#### Issue: "Port already in use"
-
-**Solution**:
-1. Find and stop the application using that port, OR
-2. Change the port in your `.env` file to a different number (e.g., 3002, 3003)
-3. Update corresponding configuration in the other .env file
-
-#### Issue: Transactions not persisting after restart
-
-**Solution**:
-1. Check that `backend/data/transactions.csv` file exists
-2. Verify the backend has write permissions to the data directory
-3. Check backend terminal for error messages about file operations
-4. Ensure `CSV_FILE_PATH` in backend `.env` points to correct location
-
-#### Issue: Table not displaying correctly
-
-**Solution**:
-1. Open browser Developer Tools (F12)
-2. Check Console tab for JavaScript errors
-3. Verify API is returning data (Network tab)
-4. Clear browser cache and reload
-5. Try a different browser
-
-#### Issue: Modal form not submitting
-
-**Solution**:
-1. Check browser console for errors
-2. Verify all required fields are filled
-3. Ensure backend is running and accessible
-4. Check Network tab in Developer Tools to see if request is being sent
-
-#### Issue: "Module not found" errors
-
-**Solution**:
-```bash
-# Delete node_modules and reinstall
-rm -rf node_modules
-rm package-lock.json
-npm install
-```
-
-Do this in both backend and frontend directories.
-
-## Development
-
-### Code Quality Standards
-
-- Use consistent code formatting
-- Add comments for complex logic
-- Follow REST API best practices
-- Handle errors gracefully
-- Validate user input
-
-### Project Architecture
-
-**Backend Architecture**:
-- Routes: Define API endpoints
-- Controllers: Handle business logic
-- Utils: Helper functions for CSV operations
-- Error handling: Centralized error responses
-
-**Frontend Architecture**:
-- Components: Reusable UI elements
-- Services: API communication layer
-- State management: Handle application state
-- Styling: Component-specific or global styles
-
-## Contributing
-
-If you'd like to contribute to this project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-[Specify your license here - e.g., MIT, Apache 2.0, etc.]
-
-## Contact
-
-Your Name - [your.email@example.com](mailto:your.email@example.com)
-
-Project Link: [https://github.com/yourusername/transaction-management-system](https://github.com/yourusername/transaction-management-system)
-
-## Acknowledgments
-
-- [List any resources, tutorials, or libraries that helped]
-- [Credit any third-party code or assets used]
-- [Thank contributors]
-
----
 
 **Last Updated**: September 30, 2025
 
