@@ -1,0 +1,23 @@
+{
+  "name": "first-circle-take-home",
+  "version": "1.0.0",
+  "description": "This is the take home exam of first circle",
+  "keywords": [
+    "first"
+  ],
+  "homepage": "https://github.com/KertSolas/first-circle-take-home#readme",
+  "bugs": {
+    "url": "https://github.com/KertSolas/first-circle-take-home/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KertSolas/first-circle-take-home.git"
+  },
+  "license": "ISC",
+  "author": "Kert Solas",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  }
+}

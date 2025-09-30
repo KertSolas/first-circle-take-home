@@ -46,8 +46,6 @@ function appendCSVRow(values = []) {
   fs.appendFileSync(CSV_FILE, row);
 }
 
-/* Validation / formatting helpers */
-
 // Normalize accountNumber: strip non-digits, require exactly 12 digits, return dashed format
 function formatAccountNumber(input) {
   const digits = String(input || '').replace(/\D/g, '');
@@ -84,8 +82,6 @@ app.use((req, res, next) => {
   next(); 
 });
 
-/* POST /api/transactions */
-// Expected body: { transactionDate, accountNumber, accountHolderName, amount, status }
 app.post('/api/transactions', (req, res) => {
   try {
     const { transactionDate, accountNumber, accountHolderName, amount, status } = req.body || {};
@@ -115,7 +111,7 @@ app.post('/api/transactions', (req, res) => {
       return res.status(400).json({ error: 'Amount must be a number greater than 0' });
     }
 
-    // If account already exists, enforce matching name (case-insensitive, trimmed)
+    // If account already exists, enforce matching name
     const existingName = findAccountHolderByAccountNumber(formattedAccountNumber);
     if (existingName) {
       const provided = accountHolderName.trim().toLowerCase();
@@ -128,7 +124,6 @@ app.post('/api/transactions', (req, res) => {
       }
     }
 
-    // All good -> append to CSV (use formatted account number and amount with 2 decimals)
     const amountFormatted = parsedAmount.toFixed(2); // always two decimal places
 
     appendCSVRow([
@@ -149,7 +144,6 @@ app.post('/api/transactions', (req, res) => {
   }
 });
 
-/* GET /api/transactions */
 app.get('/api/transactions', (req, res) => {
   try {
     if (!fs.existsSync(CSV_FILE)) {
@@ -180,7 +174,6 @@ app.get('/api/transactions', (req, res) => {
   }
 });
 
-/* Start */
 initializeCSV();
 
 const PORT = process.env.PORT || 3000;
