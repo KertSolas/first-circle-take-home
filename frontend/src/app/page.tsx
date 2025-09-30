@@ -8,7 +8,7 @@ export default function TransactionPage() {
   const { transactions, loading, message, addTransaction, setMessage } = useTransactions();
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className="bg-black container mx-auto p-6 max-w-7xl">
       <h1 className="text-3xl font-bold mb-8">Transaction Management</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

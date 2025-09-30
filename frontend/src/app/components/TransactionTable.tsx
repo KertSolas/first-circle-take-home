@@ -16,7 +16,7 @@ export default function TransactionTable({ transactions }: Props) {
   }
 
   return (
-    <div className="bg-black shadow-md rounded-lg p-6 h-[600px] flex flex-col">
+    <div className="bg-black text-white shadow-md rounded-lg p-6 h-[600px] flex flex-col">
       <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
 
       {/* Scrollable wrapper */}

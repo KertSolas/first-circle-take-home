@@ -30,7 +30,7 @@ export default function TransactionForm({ onSubmit, loading, message, setMessage
   };
 
   return (
-    <div className="bg-black shadow-md rounded-lg p-6 mb-8">
+    <div className="bg-black text-white shadow-md rounded-lg p-6 mb-8">
       <h2 className="text-xl font-semibold mb-4">Add New Transaction</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
