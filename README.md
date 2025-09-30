@@ -47,18 +47,10 @@ If any of these commands return "command not found" or similar errors, you'll ne
 ```
 transaction-management-system/
 ├── backend/
-│   ├── src/
-│   │   ├── routes/
-│   │   │   └── transactions.js
-│   │   ├── controllers/
-│   │   │   └── transactionController.js
-│   │   └── utils/
-│   │       └── csvHandler.js
-│   ├── data/
-│   │   └── transactions.csv
 │   ├── package.json
 │   ├── .env
 │   └── server.js
+|   ├── 
 ├── frontend/
 │   ├── src/
 │   │   ├── app/

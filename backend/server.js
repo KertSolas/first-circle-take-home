@@ -33,13 +33,6 @@ function parseCSVField(field = '') {
   return String(field).replace(/^"|"$/g, '').replace(/""/g, '"');
 }
 
-// Read all CSV lines (returns array of lines, header included)
-function readCSVLines() {
-  if (!fs.existsSync(CSV_FILE)) return [];
-  const data = fs.readFileSync(CSV_FILE, 'utf8');
-  return data.split('\n').filter(() => true); // preserve empty last line if any
-}
-
 // Append a row array to CSV file (joins with commas)
 function appendCSVRow(values = []) {
   const row = values.map(escapeCSV).join(',') + '\n';
