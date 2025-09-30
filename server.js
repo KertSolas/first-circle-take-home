@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,11 +26,39 @@ function escapeCSV(value) {
   return str;
 }
 
+// Helper: return associated account holder name for a formatted account number (or null)
+function getAssociatedNameForAccount(formattedAccountNumber) {
+  if (!fs.existsSync(CSV_FILE)) return null;
+  const data = fs.readFileSync(CSV_FILE, 'utf8');
+  const lines = data.trim().split('\n').slice(1); // skip header
+  for (const line of lines) {
+    const values = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g) || [];
+    const acct = values[1]?.replace(/^"|"$/g, '').replace(/""/g, '"');
+    const name = values[2]?.replace(/^"|"$/g, '').replace(/""/g, '"');
+    if (acct === formattedAccountNumber) return name || null;
+  }
+  return null;
+}
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 // POST endpoint to save transaction data
 app.post('/api/transactions', (req, res) => {
   try {
     const { transactionDate, accountNumber, accountHolderName, amount, status } = req.body;
-
+    
+    // Normalize account number: strip non-digits and require 12 digits
+    const normalized = String(accountNumber || '').replace(/\D/g, '');
+    if (normalized.length !== 12) {
+      return res.status(400).json({ error: 'Account number must contain 12 digits (you may include dashes)' });
+    }
+    const formattedAccountNumber = normalized.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+    
     // Validate required fields
     if (!transactionDate || !accountNumber || !accountHolderName || !amount || !status) {
       return res.status(400).json({ 
@@ -38,10 +67,31 @@ app.post('/api/transactions', (req, res) => {
       });
     }
 
-    // Format CSV row
+    if (typeof accountHolderName !== 'string') {
+      return res.status(400).json({ error: 'Account holder name must be a string' });
+    }
+
+    if (isNaN(parseFloat(amount))) {
+      return res.status(400).json({ error: 'Amount must be a valid number' });
+    }
+
+    // NEW: if account number already exists in CSV, require the provided name to match the stored name
+    const existingName = getAssociatedNameForAccount(formattedAccountNumber);
+    if (existingName) {
+      const provided = String(accountHolderName).trim().toLowerCase();
+      const stored = String(existingName).trim().toLowerCase();
+      if (provided !== stored) {
+        return res.status(400).json({
+          error: 'Account number does not match account holder name',
+          details: { provided: accountHolderName, expected: existingName }
+        });
+      }
+    }
+
+    // Format CSV row (use formattedAccountNumber so saved value always has dashes)
     const row = [
       escapeCSV(transactionDate),
-      escapeCSV(accountNumber),
+      escapeCSV(formattedAccountNumber),
       escapeCSV(accountHolderName),
       escapeCSV(amount),
       escapeCSV(status)
@@ -52,7 +102,7 @@ app.post('/api/transactions', (req, res) => {
 
     res.status(201).json({ 
       message: 'Transaction saved successfully',
-      data: { transactionDate, accountNumber, accountHolderName, amount, status }
+      data: { transactionDate, accountNumber: formattedAccountNumber, accountHolderName, amount, status }
     });
   } catch (err) {
     console.error('Error saving transaction:', err);
