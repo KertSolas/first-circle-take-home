@@ -403,6 +403,6 @@ curl -X POST http://localhost:3000/api/transactions \
 - [ ] Amount is properly formatted with decimals
 - [ ] CSV file is updated with new transactions
 
-**Last Updated**: September 30, 2025
+**Last Updated**: October 1, 2025
 
 **Version**: 1.0.0
