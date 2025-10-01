@@ -1,8 +1,8 @@
 'use client';
 
-import TransactionForm from './components/TransactionForm';
-import TransactionTable from './components/TransactionTable';
-import { useTransactions } from './hooks/useTransactions';
+import TransactionForm from '@/components/TransactionForm';
+import TransactionTable from '@/components/TransactionTable';
+import { useTransactions } from '@/hooks/useTransactions';
 
 export default function TransactionPage() {
   const { transactions, loading, message, addTransaction, setMessage } = useTransactions();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Transaction } from '../types';
+import { Transaction } from '@/types/Transaction';
 
 interface Props {
   onSubmit: (transaction: Omit<Transaction, 'id'>) => void;
@@ -11,12 +11,14 @@ interface Props {
 }
 
 export default function TransactionForm({ onSubmit, loading, message, setMessage }: Props) {
+  const statuses = ['Pending', 'Settled', 'Failed'];
+  const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
   const [formData, setFormData] = useState<Omit<Transaction, 'id'>>({
     transactionDate: '',
     accountNumber: '',
     accountHolderName: '',
     amount: '',
-    status: 'Pending',
+    status: randomStatus,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -26,7 +28,7 @@ export default function TransactionForm({ onSubmit, loading, message, setMessage
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
-    setFormData({ transactionDate: '', accountNumber: '', accountHolderName: '', amount: '', status: 'Pending' });
+    setFormData({ transactionDate: '', accountNumber: '', accountHolderName: '', amount: '', status: '' });
   };
 
   return (
@@ -38,11 +40,6 @@ export default function TransactionForm({ onSubmit, loading, message, setMessage
           <input type="text" name="accountNumber" placeholder="Account Number"  value={formData.accountNumber} onChange={handleChange} required className="w-full px-3 py-2 border rounded-md"/>
           <input type="text" name="accountHolderName" placeholder="Name" value={formData.accountHolderName} onChange={handleChange} required className="w-full px-3 py-2 border rounded-md"/>
           <input type="number" step="0.01" name="amount" placeholder="Payment Amount" value={formData.amount} onChange={handleChange} required className="w-full px-3 py-2 border rounded-md"/>
-          <select name="status" value={formData.status} onChange={handleChange} className="w-full px-3 py-2 border rounded-md">
-            <option value="Pending">Pending</option>
-            <option value="Settled">Settled</option>
-            <option value="Failed">Failed</option>
-          </select>
         </div>
         <button type="submit" disabled={loading} className="w-full bg-blue-600 text-white py-2 rounded-md">
           {loading ? 'Saving...' : 'Save Transaction'}

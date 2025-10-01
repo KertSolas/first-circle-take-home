@@ -1,11 +1,3 @@
-# Transaction Management System
-
-A simple transaction management system with a RESTful API backend and a web-based frontend for managing financial transactions stored in a CSV file.
-
-## Overview
-
-This application allows users to view and add financial transactions through a clean web interface. Transaction data is persisted in a CSV file, and the system assigns random statuses (Pending, Settled, or Failed) to new transactions.
-
 ## Features
 
 - **View Transactions**: Display all transactions in a formatted table
@@ -18,7 +10,7 @@ This application allows users to view and add financial transactions through a c
 - **Backend**: Node.js with Express.js
 - **Frontend**: Next.js with TypeScript
 - **Data Storage**: CSV file
-- **Styling**: Tailwind CSS (optional)
+- **Styling**: Tailwind CSS
 
 ## Prerequisites
 
@@ -57,13 +49,14 @@ transaction-management-system/
 │   │   │   ├── page.tsx
 │   │   │   ├── layout.tsx
 │   │   │   └── globals.css
-|   |   |   └── types.ts
 │   │   ├── components/
 │   │   │   ├── StatusBadge.tsx
 │   │   │   └── TransactionForm.tsx
 |   |   |   └── TransactionTable.tsx
 │   │   ├── hooks/
 │   │   │   └── useTransaction.ts
+|   |   ├── types/
+|   |   |   ├── Transaction.ts
 │   ├── public/
 │   ├── package.json
 │   ├── tsconfig.json

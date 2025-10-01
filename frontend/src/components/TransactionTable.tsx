@@ -1,4 +1,4 @@
-import { Transaction } from '../types';
+import { Transaction } from '@/types/Transaction';
 import StatusBadge from './StatusBadge';
 
 interface Props {

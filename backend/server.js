@@ -16,8 +16,6 @@ function initializeCSV() {
   }
 }
 
-/* CSV helpers */
-
 // Escape a single value for CSV (quote when needed, double internal quotes)
 function escapeCSV(value) {
   if (value === null || value === undefined) return '';
