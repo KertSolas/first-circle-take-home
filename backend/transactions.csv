@@ -10,12 +10,3 @@ Transaction Date,Account Number,Account Holder Name,Amount,Status
 2025-03-08,7890-1234-5678,Thomas Wilson,62.50,Failed
 2025-03-08,1212-3434-5656,Jessica Martin,830.00,Settled
 2025-03-09,9876-5432-1011,Christopher Davis,124.75,Pending
-2025-09-10,1234-5678-9012,hello,12,Pending
-2025-09-15,1234-5678-9012,hello,12,Pending
-2025-09-24,9876-5432-1011,Christopher Davis,12,Pending
-2025-09-24,9876-5432-1011,Christopher Davis,12,Pending
-2025-09-18,7289-3445-1121,Maria Johnson,12.00,Pending
-2025-09-23,7289-3445-1121,Maria Johnson,34.00,Pending
-2025-09-03,7289-3445-1121,Maria Johnson,344.00,Pending
-2025-09-10,7289-3445-1121,Maria Johnson,333.00,Pending
-2025-09-18,7289-3445-1121,Maria Johnson,124.00,Pending
