@@ -19,7 +19,3 @@ Transaction Date,Account Number,Account Holder Name,Amount,Status
 2025-09-03,7289-3445-1121,Maria Johnson,344.00,Pending
 2025-09-10,7289-3445-1121,Maria Johnson,333.00,Pending
 2025-09-18,7289-3445-1121,Maria Johnson,124.00,Pending
-2025-09-05,1212-3434-5656,Jessica Martin,33.00,Pending
-2025-10-16,1234-5678-9012,hello,12.00,Pending
-2025-10-09,7289-3445-1121,Maria Johnson,2323.00,Failed
-2025-10-09,9876-5432-1011,Christopher Davis,2344.00,Settled

@@ -16,7 +16,6 @@ function initializeCSV() {
   }
 }
 
-// Escape a single value for CSV (quote when needed, double internal quotes)
 function escapeCSV(value) {
   if (value === null || value === undefined) return '';
   const str = String(value);
@@ -26,12 +25,11 @@ function escapeCSV(value) {
   return str;
 }
 
-// Parse a CSV field value (remove surrounding quotes and unescape "")
 function parseCSVField(field = '') {
   return String(field).replace(/^"|"$/g, '').replace(/""/g, '"');
 }
 
-// Append a row array to CSV file (joins with commas)
+
 function appendCSVRow(values = []) {
   const row = values.map(escapeCSV).join(',') + '\n';
   fs.appendFileSync(CSV_FILE, row);
@@ -68,7 +66,7 @@ function findAccountHolderByAccountNumber(formattedAccountNumber) {
 /* CORS (specific dev origin) */
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Methods', 'GET, POST');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next(); 
 });
@@ -170,5 +168,5 @@ initializeCSV();
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`CSV file location: ${CSV_FILE}`);
+  console.log(`CSV file loaded successfully`);
 });

@@ -206,7 +206,7 @@ npm run dev
 ```
 
 **Troubleshooting**:
-- If you see "Port 3001 is already in use", Next.js will automatically try port 3002, 3003, etc.
+- If you see "Port 3000 is already in use", Next.js will automatically try port 3001, 3002, etc.
 - If you see TypeScript errors, ensure all dependencies are installed: `npm install`
 - If you see "Module not found" errors, delete `node_modules` and `.next` folder, then run `npm install` again
 

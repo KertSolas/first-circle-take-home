@@ -22,7 +22,7 @@ export default function TransactionTable({ transactions }: Props) {
       {/* Scrollable wrapper */}
       <div className="flex-1 overflow-scroll">
         <table className="w-full min-w-[600px]">
-          <thead className="bg-black top-0">
+          <thead className="bg-black top-0 sticky">
             <tr>
               <th className="px-4 py-2 text-left text-sm font-semibold">Date</th>
               <th className="px-4 py-2 text-left text-sm font-semibold">Account Number</th>
